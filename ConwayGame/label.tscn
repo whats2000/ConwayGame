@@ -11,5 +11,5 @@ layer_0/tile_data = PackedInt32Array(0, 262149, 8, 65536, 262149, 8, 131072, 262
 
 [node name="Cell" type="Node2D" parent="TileMap"]
 
-[node name="Camera2D" type="Camera2D" parent="TileMap/Cell"]
+[node name="Camera2D" type="Camera2D" parent="TileMap"]
 position = Vector2(0, -1)
