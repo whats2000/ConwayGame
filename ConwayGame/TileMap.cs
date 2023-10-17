@@ -35,6 +35,12 @@ public partial class TileMap : Godot.TileMap
 		}
 	}
 
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		Process_cell();
+	}
+
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (@event is InputEventKey eventKey)
@@ -71,5 +77,67 @@ public partial class TileMap : Godot.TileMap
 				}
 			}
 		}
+	}
+
+	private void Process_cell()
+	{
+		if (!playing) return;
+		List<List<int>> new_field = new();
+
+		for (int x = 0; x < Width; x++)
+		{
+			List<int> new_row = new();
+
+			for (int y = 0; y < Height; y++)
+			{
+				int neighbors = Count_neighbors(x, y);
+				int current_state = temp_field[x][y];
+				int new_state = current_state;
+
+				if (current_state == 1)
+				{
+					// Cell is alive
+					if (neighbors < 2 || neighbors > 3)
+					{
+						new_state = 0; // Dies due to underpopulation or overpopulation
+					}
+				}
+				else
+				{
+					// Cell is dead
+					if (neighbors == 3)
+					{
+						new_state = 1; // Becomes alive due to reproduction
+					}
+				}
+
+				new_row.Add(new_state);
+				SetCell(0, new Vector2I(x, y), new_state, new Vector2I(0, 0));
+			}
+
+			new_field.Add(new_row);
+		}
+
+		temp_field = new_field;
+	}
+
+	private int Count_neighbors(int x, int y)
+	{
+		int count = 0;
+		int[] dx = { -1, -1, -1, 0, 0, 1, 1, 1 };
+		int[] dy = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+		for (int i = 0; i < 8; i++)
+		{
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+
+			if (nx >= 0 && nx < Width && ny >= 0 && ny < Height)
+			{
+				count += temp_field[nx][ny];
+			}
+		}
+
+		return count;
 	}
 }
