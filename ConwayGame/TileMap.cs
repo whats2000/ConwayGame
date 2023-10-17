@@ -144,6 +144,22 @@ public partial class TileMap : Godot.TileMap
 		{
 			isRightClick = false;
 		}
+
+		if (@event.IsActionPressed("zoom_up"))
+		{
+			ChangeCameraZoom(1.1f);
+		}
+
+		if (@event.IsActionPressed("zoom_down"))
+		{
+			ChangeCameraZoom(0.9f);
+		}
+	}
+
+	private void ChangeCameraZoom(float zoom)
+	{
+		Camera2D camera = GetNode<Camera2D>("Camera2D");
+		camera.Zoom *= zoom;
 	}
 
 	private void PlaceCell(Vector2I mouse_pos_2i)
