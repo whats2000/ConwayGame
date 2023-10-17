@@ -56,6 +56,8 @@ public partial class TileMap : Godot.TileMap
 
         for (int x = 0; x < Width; x++)
         {
+            List<bool> temp_row = new List<bool>();
+
             for (int y = 0; y < Height; y++)
             {
                 int count = 0;
@@ -66,33 +68,45 @@ public partial class TileMap : Godot.TileMap
                     {
                         if ((dx == 0 && dy == 0) ||
                             x + dx < 0 || x + dx >= Width ||
-                            y + dy < 0 || y + dy >= Height ||
-                            !field[x + dx][y + dy]) continue;
+                            y + dy < 0 || y + dy >= Height) continue;
+
+                        if (!field[x + dx][y + dy]) continue;
                         count++;
                     }
                 }
 
                 if (!field[x][y])
                 {
-                    if (count != 3) continue;
-                    SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
-                    temp_field[x][y] = true;
-                    continue;
-                }
-                if (count < 2 || count > 3)
-                {
-                    SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-                    temp_field[x][y] = false;
+                    if (count == 3)
+                    {
+                        SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
+                        temp_row.Add(true);
+                    }
+                    else
+                    {
+                        temp_row.Add(false);
+                    }
                 }
                 else
                 {
-                    temp_field[x][y] = true;
+                    if (count < 2 || count > 3)
+                    {
+                        SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
+                        temp_row.Add(false);
+                    }
+                    else
+                    {
+                        temp_row.Add(true);
+                    }
                 }
             }
+
+            temp_field.Add(temp_row);
         }
 
         field = temp_field;
     }
+
 
     public override void _UnhandledInput(InputEvent @event)
     {
