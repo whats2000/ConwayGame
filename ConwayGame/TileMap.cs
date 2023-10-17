@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public partial class TileMap : Godot.TileMap
 {
     const int TILE_MAP_SIZE = 32;
-    private bool pause = false;
+    private bool pause = true;
     private bool isLeftClick = false;
     private bool isRightClick = false;
 
@@ -50,6 +50,8 @@ public partial class TileMap : Godot.TileMap
 
     private void Process_cell()
     {
+        if (pause) return;
+
         List<List<bool>> temp_field = field;
 
         for (int x = 0; x < Width; x++)
