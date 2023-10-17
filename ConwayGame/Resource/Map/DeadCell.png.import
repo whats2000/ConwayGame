@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cheywd4ewtt3h"
-path="res://.godot/imported/Sprute.png-1df276bf34b2b5d870a205cb7b2eeaf0.ctex"
+uid="uid://bxi22jwavkkyb"
+path="res://.godot/imported/DeadCell.png-7d811f231957ea4a9413cb7a99989bb5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resource/Map/Sprute.png"
-dest_files=["res://.godot/imported/Sprute.png-1df276bf34b2b5d870a205cb7b2eeaf0.ctex"]
+source_file="res://Resource/Map/DeadCell.png"
+dest_files=["res://.godot/imported/DeadCell.png-7d811f231957ea4a9413cb7a99989bb5.ctex"]
 
 [params]
 

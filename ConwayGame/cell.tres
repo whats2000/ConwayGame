@@ -1,11 +1,23 @@
-[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://dbxu1n6rtbvmg"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dbxu1n6rtbvmg"]
 
-[ext_resource type="Texture2D" uid="uid://cheywd4ewtt3h" path="res://Resource/Map/Sprute.png" id="1_s4gpj"]
-[ext_resource type="Texture2D" uid="uid://dd3evi8arh22w" path="res://Resource/Map/grass03.png" id="2_mk66w"]
-[ext_resource type="Texture2D" uid="uid://dtsiiuk7vgvtk" path="res://Resource/Map/white.png" id="3_o1kuj"]
+[ext_resource type="Texture2D" uid="uid://bxi22jwavkkyb" path="res://Resource/Map/DeadCell.png" id="1_f24rv"]
+[ext_resource type="Texture2D" uid="uid://bls4jf23l802m" path="res://Resource/Map/Cell.png" id="2_cl66v"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_urife"]
+texture = ExtResource("1_f24rv")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4bj6r"]
+texture = ExtResource("2_cl66v")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f7tq7"]
+load_path = "res://.godot/imported/Sprute.png-1df276bf34b2b5d870a205cb7b2eeaf0.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxt2s"]
-texture = ExtResource("1_s4gpj")
+texture = SubResource("CompressedTexture2D_f7tq7")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -53,8 +65,11 @@ texture_region_size = Vector2i(32, 32)
 3:7/0 = 0
 7:0/0 = 0
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_geh45"]
+load_path = "res://.godot/imported/grass03.png-d20c30fcaa4d086622f0a8abb2299445.ctex"
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_usmyq"]
-texture = ExtResource("2_mk66w")
+texture = SubResource("CompressedTexture2D_geh45")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -313,13 +328,9 @@ texture_region_size = Vector2i(32, 32)
 14:15/0 = 0
 15:15/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hiomv"]
-texture = ExtResource("3_o1kuj")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
 [resource]
 tile_size = Vector2i(32, 32)
-sources/0 = SubResource("TileSetAtlasSource_qxt2s")
-sources/1 = SubResource("TileSetAtlasSource_usmyq")
-sources/4 = SubResource("TileSetAtlasSource_hiomv")
+sources/2 = SubResource("TileSetAtlasSource_qxt2s")
+sources/5 = SubResource("TileSetAtlasSource_usmyq")
+sources/1 = SubResource("TileSetAtlasSource_4bj6r")
+sources/0 = SubResource("TileSetAtlasSource_urife")

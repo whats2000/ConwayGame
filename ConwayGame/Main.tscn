@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfng15imx21el"]
+
+[ext_resource type="TileSet" uid="uid://dbxu1n6rtbvmg" path="res://cell.tres" id="1_y0dan"]
+[ext_resource type="Script" path="res://TileMap.cs" id="2_3d02e"]
+
+[node name="TileMap" type="TileMap"]
+tile_set = ExtResource("1_y0dan")
+format = 2
+script = ExtResource("2_3d02e")
+Width = 96
+Height = 54
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-3, 0)
