@@ -52,7 +52,7 @@ public partial class TileMap : Godot.TileMap
     {
         if (pause) return;
 
-        List<List<bool>> temp_field = field;
+        List<List<bool>> temp_field = new List<List<bool>>();
 
         for (int x = 0; x < Width; x++)
         {
@@ -83,6 +83,10 @@ public partial class TileMap : Godot.TileMap
                 {
                     SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
                     temp_field[x][y] = false;
+                }
+                else
+                {
+                    temp_field[x][y] = true;
                 }
             }
         }
