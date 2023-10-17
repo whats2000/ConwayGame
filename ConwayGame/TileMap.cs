@@ -22,7 +22,7 @@ public partial class TileMap : Godot.TileMap
 		Camera2D camera = GetNode<Camera2D>("Camera2D");
 
 		camera.Position = new Vector2(width_pixel, height_pixel) / 2;
-		camera.Zoom = new Vector2(width_pixel / 1920, height_pixel / 1080);
+		camera.Zoom = new Vector2(0.25f, 0.25f);
 
 		for (int x = 0; x < Width; x++)
 		{
@@ -127,7 +127,7 @@ public partial class TileMap : Godot.TileMap
 			return;
 		}
 
-		if (@event.IsActionPressed("place_cell"))
+		if (@event.IsActionPressed("place_cell") && !@event.IsActionPressed("drag_map"))
 		{
 			isLeftClick = true;
 		}
@@ -144,22 +144,6 @@ public partial class TileMap : Godot.TileMap
 		{
 			isRightClick = false;
 		}
-
-		if (@event.IsActionPressed("zoom_up"))
-		{
-			ChangeCameraZoom(1.1f);
-		}
-
-		if (@event.IsActionPressed("zoom_down"))
-		{
-			ChangeCameraZoom(0.9f);
-		}
-	}
-
-	private void ChangeCameraZoom(float zoom)
-	{
-		Camera2D camera = GetNode<Camera2D>("Camera2D");
-		camera.Zoom *= zoom;
 	}
 
 	private void PlaceCell(Vector2I mouse_pos_2i)
