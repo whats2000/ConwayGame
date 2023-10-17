@@ -86,6 +86,8 @@ public partial class TileMap : Godot.TileMap
                 }
             }
         }
+
+        field = temp_field;
     }
 
     public override void _UnhandledInput(InputEvent @event)
