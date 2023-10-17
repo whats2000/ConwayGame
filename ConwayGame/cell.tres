@@ -1,11 +1,11 @@
 [gd_resource type="TileSet" load_steps=7 format=3 uid="uid://dbxu1n6rtbvmg"]
 
-[ext_resource type="Texture2D" uid="uid://cheywd4ewtt3h" path="res://Sprute.png" id="1_sbaff"]
-[ext_resource type="Texture2D" uid="uid://dd3evi8arh22w" path="res://grass03.png" id="1_t6c28"]
-[ext_resource type="Texture2D" uid="uid://dtsiiuk7vgvtk" path="res://white.png" id="3_jv22u"]
+[ext_resource type="Texture2D" uid="uid://cheywd4ewtt3h" path="res://Resource/Map/Sprute.png" id="1_s4gpj"]
+[ext_resource type="Texture2D" uid="uid://dd3evi8arh22w" path="res://Resource/Map/grass03.png" id="2_mk66w"]
+[ext_resource type="Texture2D" uid="uid://dtsiiuk7vgvtk" path="res://Resource/Map/white.png" id="3_o1kuj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxt2s"]
-texture = ExtResource("1_sbaff")
+texture = ExtResource("1_s4gpj")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -54,7 +54,7 @@ texture_region_size = Vector2i(32, 32)
 7:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_usmyq"]
-texture = ExtResource("1_t6c28")
+texture = ExtResource("2_mk66w")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -314,7 +314,7 @@ texture_region_size = Vector2i(32, 32)
 15:15/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hiomv"]
-texture = ExtResource("3_jv22u")
+texture = ExtResource("3_o1kuj")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
