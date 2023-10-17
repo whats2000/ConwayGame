@@ -3,141 +3,150 @@ using System.Collections.Generic;
 
 public partial class TileMap : Godot.TileMap
 {
-	const int TILE_MAP_SIZE = 32;
-	bool playing = false;
-	List<List<int>> temp_field = new();
+    const int TILE_MAP_SIZE = 32;
+    private bool pause = false;
+    private bool isLeftClick = false;
+    private bool isRightClick = false;
 
-	[Export] public int Width;
-	[Export] public int Height;
+    List<List<bool>> field = new();
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		int width_pixel = Width * TILE_MAP_SIZE;
-		int height_pixel = Height * TILE_MAP_SIZE;
+    [Export] public int Width;
+    [Export] public int Height;
 
-		Camera2D camera = GetNode<Camera2D>("Camera2D");
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        int width_pixel = Width * TILE_MAP_SIZE;
+        int height_pixel = Height * TILE_MAP_SIZE;
 
-		camera.Position = new Vector2(width_pixel, height_pixel) / 2;
-		camera.Zoom = new Vector2(width_pixel / 1920, height_pixel / 1080);
+        Camera2D camera = GetNode<Camera2D>("Camera2D");
 
-		for (int x = 0; x < Width; x++)
-		{
-			List<int> temp = new();
+        camera.Position = new Vector2(width_pixel, height_pixel) / 2;
+        camera.Zoom = new Vector2(width_pixel / 1920, height_pixel / 1080);
 
-			for (int y = 0; y < Height; y++)
-			{
-				SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-				temp.Add(0);
-			}
+        for (int x = 0; x < Width; x++)
+        {
+            field.Add(new List<bool>());
+            for (int y = 0; y < Height; y++)
+            {
+                SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
+                field[x].Add(false);
+            }
+        }
+    }
 
-			temp_field.Add(temp);
-		}
-	}
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+        Vector2 mouse_pos = GetLocalMousePosition() / TILE_MAP_SIZE;
+        Vector2I mouse_pos_2i = new((int)mouse_pos.X, (int)mouse_pos.Y);
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		Process_cell();
-	}
+        PlaceCell(mouse_pos_2i);
+        RemoveCell(mouse_pos_2i);
 
-	public override void _UnhandledInput(InputEvent @event)
-	{
-		if (@event is InputEventKey eventKey)
-		{
-			if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
-			{
-				GetTree().Quit();
-			}
-		}
-	}
+        Process_cell();
+    }
 
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("toggle_play"))
-		{
-			playing = !playing;
-		}
-		else if (@event.IsActionPressed("place_cell"))
-		{
-			Vector2 mouse_pos = (GetLocalMousePosition() / TILE_MAP_SIZE).Floor();
-			Vector2I mouse_pos_2i = new((int)mouse_pos.X, (int)mouse_pos.Y);
 
-			if (mouse_pos_2i.X >= 0 && mouse_pos_2i.X < Width && mouse_pos_2i.Y >= 0 && mouse_pos_2i.Y < Height)
-			{
-				if (temp_field[mouse_pos_2i.X][mouse_pos_2i.Y] == 1)
-				{
-					SetCell(0, mouse_pos_2i, 0, new Vector2I(0, 0));
-					temp_field[mouse_pos_2i.X][mouse_pos_2i.Y] = 0;
-				}
-				else
-				{
-					SetCell(0, mouse_pos_2i, 1, new Vector2I(0, 0));
-					temp_field[mouse_pos_2i.X][mouse_pos_2i.Y] = 1;
-				}
-			}
-		}
-	}
+    private void Process_cell()
+    {
+        List<List<bool>> temp_field = field;
 
-	private void Process_cell()
-	{
-		if (!playing) return;
-		List<List<int>> new_field = new();
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                int count = 0;
 
-		for (int x = 0; x < Width; x++)
-		{
-			List<int> new_row = new();
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        if ((dx == 0 && dy == 0) ||
+                            x + dx < 0 || x + dx >= Width ||
+                            y + dy < 0 || y + dy >= Height ||
+                            !field[x + dx][y + dy]) continue;
+                        count++;
+                    }
+                }
 
-			for (int y = 0; y < Height; y++)
-			{
-				int neighbors = Count_neighbors(x, y);
-				int current_state = temp_field[x][y];
-				int new_state = current_state;
+                if (!field[x][y])
+                {
+                    if (count != 3) continue;
+                    SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
+                    temp_field[x][y] = true;
+                    continue;
+                }
+                if (count < 2 || count > 3)
+                {
+                    SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
+                    temp_field[x][y] = false;
+                }
+            }
+        }
+    }
 
-				if (current_state == 1)
-				{
-					// Cell is alive
-					if (neighbors < 2 || neighbors > 3)
-					{
-						new_state = 0; // Dies due to underpopulation or overpopulation
-					}
-				}
-				else
-				{
-					// Cell is dead
-					if (neighbors == 3)
-					{
-						new_state = 1; // Becomes alive due to reproduction
-					}
-				}
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey)
+        {
+            if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
+            {
+                GetTree().Quit();
+            }
+        }
+    }
 
-				new_row.Add(new_state);
-				SetCell(0, new Vector2I(x, y), new_state, new Vector2I(0, 0));
-			}
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("toggle_play"))
+        {
+            pause = !pause;
+            return;
+        }
 
-			new_field.Add(new_row);
-		}
+        if (@event.IsActionPressed("place_cell"))
+        {
+            isLeftClick = true;
+        }
+        else if (@event.IsActionReleased("place_cell"))
+        {
+            isLeftClick = false;
+        }
 
-		temp_field = new_field;
-	}
+        if (@event.IsActionPressed("remove_cell"))
+        {
+            isRightClick = true;
+        }
+        else if (@event.IsActionReleased("remove_cell"))
+        {
+            isRightClick = false;
+        }
+    }
 
-	private int Count_neighbors(int x, int y)
-	{
-		int count = 0;
-		int[] dx = { -1, -1, -1, 0, 0, 1, 1, 1 };
-		int[] dy = { -1, 0, 1, -1, 1, -1, 0, 1 };
+    private void PlaceCell(Vector2I mouse_pos_2i)
+    {
+        if (mouse_pos_2i.X < 0 ||
+            mouse_pos_2i.X >= Width ||
+            mouse_pos_2i.Y < 0 ||
+            mouse_pos_2i.Y >= Height ||
+            field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
+            !isLeftClick) return;
 
-		for (int i = 0; i < 8; i++)
-		{
-			int nx = x + dx[i];
-			int ny = y + dy[i];
+        SetCell(0, mouse_pos_2i, 1, new Vector2I(0, 0));
+        field[mouse_pos_2i.X][mouse_pos_2i.Y] = true;
+    }
 
-			if (nx >= 0 && nx < Width && ny >= 0 && ny < Height)
-			{
-				count += temp_field[nx][ny];
-			}
-		}
+    private void RemoveCell(Vector2I mouse_pos_2i)
+    {
+        if (mouse_pos_2i.X < 0 ||
+            mouse_pos_2i.X >= Width ||
+            mouse_pos_2i.Y < 0 ||
+            mouse_pos_2i.Y >= Height ||
+            !field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
+            !isRightClick) return;
 
-		return count;
-	}
+        SetCell(0, mouse_pos_2i, 0, new Vector2I(0, 0));
+        field[mouse_pos_2i.X][mouse_pos_2i.Y] = false;
+    }
 }

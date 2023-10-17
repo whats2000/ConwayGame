@@ -14,7 +14,6 @@ texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f7tq7"]
-load_path = "res://.godot/imported/Sprute.png-1df276bf34b2b5d870a205cb7b2eeaf0.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxt2s"]
 texture = SubResource("CompressedTexture2D_f7tq7")
@@ -66,7 +65,6 @@ texture_region_size = Vector2i(32, 32)
 7:0/0 = 0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_geh45"]
-load_path = "res://.godot/imported/grass03.png-d20c30fcaa4d086622f0a8abb2299445.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_usmyq"]
 texture = SubResource("CompressedTexture2D_geh45")
