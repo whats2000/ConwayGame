@@ -11,4 +11,4 @@ Width = 96
 Height = 54
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-3, 0)
+position = Vector2(965, 542)
