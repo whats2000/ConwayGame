@@ -8,6 +8,9 @@ public partial class SettingMenu : Control
     public static int maxDeadRequired = 4;
     public static int minBreedRequired = 3;
     public static int maxBreedRequired = 3;
+    public static int deadChance = 100;
+    public static int breedChance = 100;
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -62,5 +65,15 @@ public partial class SettingMenu : Control
     private void MaxBreedSliderChange(double value)
     {
         maxBreedRequired = Math.Max((int)value, minBreedRequired);
+    }
+
+    private void DeadChanceSliderChange(double value)
+    {
+        deadChance = (int)value;
+    }
+
+    private void BreedChanceSliderChange(double value)
+    {
+        breedChance = (int)value;
     }
 }

@@ -80,7 +80,7 @@ public partial class TileMap : Godot.TileMap
 
                 if (!field[x][y])
                 {
-                    if (count >= SettingMenu.minBreedRequired && count <= SettingMenu.maxBreedRequired)
+                    if (count >= SettingMenu.minBreedRequired && count <= SettingMenu.maxBreedRequired && new Random().Next(1, 101) <= SettingMenu.breedChance)
                     {
                         SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
                         temp_row.Add(true);
@@ -92,7 +92,7 @@ public partial class TileMap : Godot.TileMap
                 }
                 else
                 {
-                    if (count <= SettingMenu.minDeadRequired || count >= SettingMenu.maxDeadRequired)
+                    if ((count <= SettingMenu.minDeadRequired || count >= SettingMenu.maxDeadRequired) && new Random().Next(1, 101) <= SettingMenu.deadChance)
                     {
                         SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
                         temp_row.Add(false);

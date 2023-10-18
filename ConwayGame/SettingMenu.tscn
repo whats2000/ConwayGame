@@ -14,7 +14,6 @@ size_flags_vertical = 4
 script = ExtResource("1_xc6mu")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-z_as_relative = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -92,6 +91,33 @@ size_flags_vertical = 4
 max_value = 8.0
 value = 3.0
 
+[node name="DeadChanceSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/DeadChanceSlider"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Dead Chance:               "
+
+[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/DeadChanceSlider"]
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 1.0
+value = 100.0
+
+[node name="BreedChanceSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/BreedChanceSlider"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Breed Chance:              "
+
+[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/BreedChanceSlider"]
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+
 [node name="ContinueButton" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
@@ -106,5 +132,7 @@ text = "Exit"
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/MaxDeadRequiredSlider/HSlider" to="." method="MaxDeadSliderChange"]
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/MinBreedRequiredSlider2/HSlider" to="." method="MinBreedSliderChange"]
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/MaxBreedRequiredSlider2/HSlider" to="." method="MaxBreedSliderChange"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/DeadChanceSlider/HSlider" to="." method="DeadChanceSliderChange"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/BreedChanceSlider/HSlider" to="." method="BreedChanceSliderChange"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ContinueButton" to="." method="OnContinueButtonPressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ExitButton" to="." method="OnQuitButtonPressed"]
