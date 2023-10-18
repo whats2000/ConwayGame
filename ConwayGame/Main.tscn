@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfng15imx21el"]
+[gd_scene load_steps=6 format=3 uid="uid://cfng15imx21el"]
 
 [ext_resource type="TileSet" uid="uid://dbxu1n6rtbvmg" path="res://cell.tres" id="1_y0dan"]
 [ext_resource type="Script" path="res://TileMap.cs" id="2_3d02e"]
 [ext_resource type="Script" path="res://Camera2D.cs" id="3_h6so6"]
 [ext_resource type="PackedScene" uid="uid://bnaeytwsoadee" path="res://SettingMenu.tscn" id="4_b5t73"]
+[ext_resource type="PackedScene" uid="uid://cgqjhs7bgsvrt" path="res://StartMenu.tscn" id="4_q7vkt"]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource("1_y0dan")
@@ -15,6 +16,8 @@ Height = 108
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(960, 540)
 script = ExtResource("3_h6so6")
+
+[node name="StartMenu" parent="Camera2D" instance=ExtResource("4_q7vkt")]
 
 [node name="SettingMenu" parent="Camera2D" instance=ExtResource("4_b5t73")]
 anchors_preset = 0

@@ -18,6 +18,8 @@ public partial class SettingMenu : Control
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		if (StartMenu.isStartMenuOpen) return;
+
 		if (@event.IsActionPressed("game_setting"))
 		{
 			isOpen = !isOpen;
