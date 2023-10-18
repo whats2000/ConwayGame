@@ -39,6 +39,8 @@ public partial class TileMap : Godot.TileMap
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (StartMenu.isStartMenuOpen) return;
+
 		Vector2 mouse_pos = GetLocalMousePosition() / TILE_MAP_SIZE;
 		Vector2I mouse_pos_2i = new((int)mouse_pos.X, (int)mouse_pos.Y);
 
