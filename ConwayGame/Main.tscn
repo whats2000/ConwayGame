@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://bnaeytwsoadee" path="res://SettingMenu.tscn" id="4_b5t73"]
 [ext_resource type="PackedScene" uid="uid://cgqjhs7bgsvrt" path="res://StartMenu.tscn" id="4_q7vkt"]
 
-[node name="TileMap" type="TileMap"]
+[node name="Game" type="Node"]
+
+[node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("1_y0dan")
 format = 2
 script = ExtResource("2_3d02e")

@@ -20,7 +20,7 @@ public partial class TileMap : Godot.TileMap
         int width_pixel = Width * TILE_MAP_SIZE;
         int height_pixel = Height * TILE_MAP_SIZE;
 
-        Camera2D camera = GetNode<Camera2D>("Camera2D");
+        Camera2D camera = GetNode<Camera2D>("../Camera2D");
 
         camera.Position = new Vector2(width_pixel, height_pixel) / 2;
         camera.Zoom = new Vector2(0.25f, 0.25f);
@@ -39,7 +39,7 @@ public partial class TileMap : Godot.TileMap
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (StartMenu.isStartMenuOpen) return;
+        if (StartMenu.isStartMenuOpen || SettingMenu.isSettingMenuOpen) return;
 
         Vector2 mouse_pos = GetLocalMousePosition() / TILE_MAP_SIZE;
         Vector2I mouse_pos_2i = new((int)mouse_pos.X, (int)mouse_pos.Y);
@@ -80,7 +80,7 @@ public partial class TileMap : Godot.TileMap
 
                 if (!field[x][y])
                 {
-                    if (count == 3)
+                    if (count >= SettingMenu.minBreedRequired && count <= SettingMenu.maxBreedRequired)
                     {
                         SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
                         temp_row.Add(true);
@@ -92,7 +92,7 @@ public partial class TileMap : Godot.TileMap
                 }
                 else
                 {
-                    if (count < 2 || count > 3)
+                    if (count <= SettingMenu.minDeadRequired || count >= SettingMenu.maxDeadRequired)
                     {
                         SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
                         temp_row.Add(false);

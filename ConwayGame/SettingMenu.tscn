@@ -9,10 +9,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_xc6mu")
-metadata/_edit_use_anchors_ = true
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+z_as_relative = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,15 +36,75 @@ theme_override_font_sizes/font_size = 50
 text = "Game Setting"
 horizontal_alignment = 1
 
+[node name="MinDeadRequiredSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MinDeadRequiredSlider"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Min Dead Required:   "
+
+[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MinDeadRequiredSlider"]
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 8.0
+value = 1.0
+
+[node name="MaxDeadRequiredSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MaxDeadRequiredSlider"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Max Dead Required:  "
+
+[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MaxDeadRequiredSlider"]
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 8.0
+value = 4.0
+
+[node name="MinBreedRequiredSlider2" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MinBreedRequiredSlider2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Min Breed Required:  "
+
+[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MinBreedRequiredSlider2"]
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 8.0
+value = 3.0
+
+[node name="MaxBreedRequiredSlider2" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MaxBreedRequiredSlider2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Max Breed Required: "
+
+[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MaxBreedRequiredSlider2"]
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 8.0
+value = 3.0
+
 [node name="ContinueButton" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 20
 text = "Continue"
 
 [node name="ExitButton" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 20
 text = "Exit"
 
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MinDeadRequiredSlider/HSlider" to="." method="MinDeadSliderChange"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MaxDeadRequiredSlider/HSlider" to="." method="MaxDeadSliderChange"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MinBreedRequiredSlider2/HSlider" to="." method="MinBreedSliderChange"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MaxBreedRequiredSlider2/HSlider" to="." method="MaxBreedSliderChange"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ContinueButton" to="." method="OnContinueButtonPressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ExitButton" to="." method="OnQuitButtonPressed"]
