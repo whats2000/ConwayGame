@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class TileMap : Godot.TileMap
 {
 	const int TILE_MAP_SIZE = 32;
-	private bool pause = true;
+	public bool pause = true;
 	private bool isLeftClick = false;
 	private bool isRightClick = false;
 
@@ -188,7 +188,6 @@ public partial class TileMap : Godot.TileMap
 			}
 		}
 	}
-
 
 	private void PlaceCell(Vector2I mouse_pos_2i)
 	{
