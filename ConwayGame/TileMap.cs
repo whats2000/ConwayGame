@@ -50,7 +50,6 @@ public partial class TileMap : Godot.TileMap
         Process_cell();
     }
 
-
     private void Process_cell()
     {
         if (pause) return;
@@ -108,18 +107,6 @@ public partial class TileMap : Godot.TileMap
         }
 
         field = temp_field;
-    }
-
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey)
-        {
-            if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
-            {
-                GetTree().Quit();
-            }
-        }
     }
 
     public override void _Input(InputEvent @event)
