@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public partial class TileMap : Godot.TileMap
@@ -144,7 +145,50 @@ public partial class TileMap : Godot.TileMap
 		{
 			isRightClick = false;
 		}
+
+		if (@event.IsActionPressed("random_place_cell"))
+		{
+			RandomPlaceCell();
+		}
+
+		if (@event.IsActionPressed("clear_cell"))
+		{
+			ClearCell();
+		}
 	}
+
+	private void ClearCell()
+	{
+		for (int x = 0; x < Width; x++)
+		{
+			field.Add(new List<bool>());
+			for (int y = 0; y < Height; y++)
+			{
+				if (!field[x][y]) continue;
+
+				SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
+				field[x][y] = false;
+			}
+		}
+	}
+
+	private void RandomPlaceCell()
+	{
+		for (int x = 0; x < Width; x++)
+		{
+			for (int y = 0; y < Height; y++)
+			{
+				if (new Random().Next(0, 9) == 1)
+				{
+					if (field[x][y]) continue;
+
+					SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
+					field[x][y] = true;
+				}
+			}
+		}
+	}
+
 
 	private void PlaceCell(Vector2I mouse_pos_2i)
 	{
