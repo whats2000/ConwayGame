@@ -4,216 +4,216 @@ using System.Collections.Generic;
 
 public partial class TileMap : Godot.TileMap
 {
-	const int TILE_MAP_SIZE = 32;
-	public bool pause = true;
-	private bool isLeftClick = false;
-	private bool isRightClick = false;
+    const int TILE_MAP_SIZE = 32;
+    public bool pause = true;
+    private bool isLeftClick = false;
+    private bool isRightClick = false;
 
-	List<List<bool>> field = new();
+    List<List<bool>> field = new();
 
-	[Export] public int Width;
-	[Export] public int Height;
+    [Export] public int Width;
+    [Export] public int Height;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		int width_pixel = Width * TILE_MAP_SIZE;
-		int height_pixel = Height * TILE_MAP_SIZE;
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        int width_pixel = Width * TILE_MAP_SIZE;
+        int height_pixel = Height * TILE_MAP_SIZE;
 
-		Camera2D camera = GetNode<Camera2D>("Camera2D");
+        Camera2D camera = GetNode<Camera2D>("Camera2D");
 
-		camera.Position = new Vector2(width_pixel, height_pixel) / 2;
-		camera.Zoom = new Vector2(0.25f, 0.25f);
+        camera.Position = new Vector2(width_pixel, height_pixel) / 2;
+        camera.Zoom = new Vector2(0.25f, 0.25f);
 
-		for (int x = 0; x < Width; x++)
-		{
-			field.Add(new List<bool>());
-			for (int y = 0; y < Height; y++)
-			{
-				SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-				field[x].Add(false);
-			}
-		}
-	}
+        for (int x = 0; x < Width; x++)
+        {
+            field.Add(new List<bool>());
+            for (int y = 0; y < Height; y++)
+            {
+                SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
+                field[x].Add(false);
+            }
+        }
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		if (StartMenu.isStartMenuOpen) return;
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+        if (StartMenu.isStartMenuOpen) return;
 
-		Vector2 mouse_pos = GetLocalMousePosition() / TILE_MAP_SIZE;
-		Vector2I mouse_pos_2i = new((int)mouse_pos.X, (int)mouse_pos.Y);
+        Vector2 mouse_pos = GetLocalMousePosition() / TILE_MAP_SIZE;
+        Vector2I mouse_pos_2i = new((int)mouse_pos.X, (int)mouse_pos.Y);
 
-		PlaceCell(mouse_pos_2i);
-		RemoveCell(mouse_pos_2i);
+        PlaceCell(mouse_pos_2i);
+        RemoveCell(mouse_pos_2i);
 
-		Process_cell();
-	}
-
-
-	private void Process_cell()
-	{
-		if (pause) return;
-
-		List<List<bool>> temp_field = new List<List<bool>>();
-
-		for (int x = 0; x < Width; x++)
-		{
-			List<bool> temp_row = new List<bool>();
-
-			for (int y = 0; y < Height; y++)
-			{
-				int count = 0;
-
-				for (int dx = -1; dx <= 1; dx++)
-				{
-					for (int dy = -1; dy <= 1; dy++)
-					{
-						if ((dx == 0 && dy == 0) ||
-							x + dx < 0 || x + dx >= Width ||
-							y + dy < 0 || y + dy >= Height) continue;
-
-						if (!field[x + dx][y + dy]) continue;
-						count++;
-					}
-				}
-
-				if (!field[x][y])
-				{
-					if (count == 3)
-					{
-						SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
-						temp_row.Add(true);
-					}
-					else
-					{
-						temp_row.Add(false);
-					}
-				}
-				else
-				{
-					if (count < 2 || count > 3)
-					{
-						SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-						temp_row.Add(false);
-					}
-					else
-					{
-						temp_row.Add(true);
-					}
-				}
-			}
-
-			temp_field.Add(temp_row);
-		}
-
-		field = temp_field;
-	}
+        Process_cell();
+    }
 
 
-	public override void _UnhandledInput(InputEvent @event)
-	{
-		if (@event is InputEventKey eventKey)
-		{
-			if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
-			{
-				GetTree().Quit();
-			}
-		}
-	}
+    private void Process_cell()
+    {
+        if (pause) return;
 
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("toggle_play"))
-		{
-			pause = !pause;
-			return;
-		}
+        List<List<bool>> temp_field = new();
 
-		if (@event.IsActionPressed("place_cell") && !@event.IsActionPressed("drag_map"))
-		{
-			isLeftClick = true;
-		}
-		else if (@event.IsActionReleased("place_cell"))
-		{
-			isLeftClick = false;
-		}
+        for (int x = 0; x < Width; x++)
+        {
+            List<bool> temp_row = new();
 
-		if (@event.IsActionPressed("remove_cell"))
-		{
-			isRightClick = true;
-		}
-		else if (@event.IsActionReleased("remove_cell"))
-		{
-			isRightClick = false;
-		}
+            for (int y = 0; y < Height; y++)
+            {
+                int count = 0;
 
-		if (@event.IsActionPressed("random_place_cell"))
-		{
-			RandomPlaceCell();
-		}
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        if ((dx == 0 && dy == 0) ||
+                            x + dx < 0 || x + dx >= Width ||
+                            y + dy < 0 || y + dy >= Height) continue;
 
-		if (@event.IsActionPressed("clear_cell"))
-		{
-			ClearCell();
-		}
-	}
+                        if (!field[x + dx][y + dy]) continue;
+                        count++;
+                    }
+                }
 
-	private void ClearCell()
-	{
-		for (int x = 0; x < Width; x++)
-		{
-			field.Add(new List<bool>());
-			for (int y = 0; y < Height; y++)
-			{
-				if (!field[x][y]) continue;
+                if (!field[x][y])
+                {
+                    if (count == 3)
+                    {
+                        SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
+                        temp_row.Add(true);
+                    }
+                    else
+                    {
+                        temp_row.Add(false);
+                    }
+                }
+                else
+                {
+                    if (count < 2 || count > 3)
+                    {
+                        SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
+                        temp_row.Add(false);
+                    }
+                    else
+                    {
+                        temp_row.Add(true);
+                    }
+                }
+            }
 
-				SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-				field[x][y] = false;
-			}
-		}
-	}
+            temp_field.Add(temp_row);
+        }
 
-	private void RandomPlaceCell()
-	{
-		for (int x = 0; x < Width; x++)
-		{
-			for (int y = 0; y < Height; y++)
-			{
-				if (new Random().Next(0, 9) == 1)
-				{
-					if (field[x][y]) continue;
+        field = temp_field;
+    }
 
-					SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
-					field[x][y] = true;
-				}
-			}
-		}
-	}
 
-	private void PlaceCell(Vector2I mouse_pos_2i)
-	{
-		if (mouse_pos_2i.X < 0 ||
-			mouse_pos_2i.X >= Width ||
-			mouse_pos_2i.Y < 0 ||
-			mouse_pos_2i.Y >= Height ||
-			field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
-			!isLeftClick) return;
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey)
+        {
+            if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
+            {
+                GetTree().Quit();
+            }
+        }
+    }
 
-		SetCell(0, mouse_pos_2i, 1, new Vector2I(0, 0));
-		field[mouse_pos_2i.X][mouse_pos_2i.Y] = true;
-	}
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("toggle_play"))
+        {
+            pause = !pause;
+            return;
+        }
 
-	private void RemoveCell(Vector2I mouse_pos_2i)
-	{
-		if (mouse_pos_2i.X < 0 ||
-			mouse_pos_2i.X >= Width ||
-			mouse_pos_2i.Y < 0 ||
-			mouse_pos_2i.Y >= Height ||
-			!field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
-			!isRightClick) return;
+        if (@event.IsActionPressed("place_cell") && !@event.IsActionPressed("drag_map"))
+        {
+            isLeftClick = true;
+        }
+        else if (@event.IsActionReleased("place_cell"))
+        {
+            isLeftClick = false;
+        }
 
-		SetCell(0, mouse_pos_2i, 0, new Vector2I(0, 0));
-		field[mouse_pos_2i.X][mouse_pos_2i.Y] = false;
-	}
+        if (@event.IsActionPressed("remove_cell"))
+        {
+            isRightClick = true;
+        }
+        else if (@event.IsActionReleased("remove_cell"))
+        {
+            isRightClick = false;
+        }
+
+        if (@event.IsActionPressed("random_place_cell"))
+        {
+            RandomPlaceCell();
+        }
+
+        if (@event.IsActionPressed("clear_cell"))
+        {
+            ClearCell();
+        }
+    }
+
+    private void ClearCell()
+    {
+        for (int x = 0; x < Width; x++)
+        {
+            field.Add(new List<bool>());
+            for (int y = 0; y < Height; y++)
+            {
+                if (!field[x][y]) continue;
+
+                SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
+                field[x][y] = false;
+            }
+        }
+    }
+
+    private void RandomPlaceCell()
+    {
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                if (new Random().Next(0, 9) == 1)
+                {
+                    if (field[x][y]) continue;
+
+                    SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
+                    field[x][y] = true;
+                }
+            }
+        }
+    }
+
+    private void PlaceCell(Vector2I mouse_pos_2i)
+    {
+        if (mouse_pos_2i.X < 0 ||
+            mouse_pos_2i.X >= Width ||
+            mouse_pos_2i.Y < 0 ||
+            mouse_pos_2i.Y >= Height ||
+            field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
+            !isLeftClick) return;
+
+        SetCell(0, mouse_pos_2i, 1, new Vector2I(0, 0));
+        field[mouse_pos_2i.X][mouse_pos_2i.Y] = true;
+    }
+
+    private void RemoveCell(Vector2I mouse_pos_2i)
+    {
+        if (mouse_pos_2i.X < 0 ||
+            mouse_pos_2i.X >= Width ||
+            mouse_pos_2i.Y < 0 ||
+            mouse_pos_2i.Y >= Height ||
+            !field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
+            !isRightClick) return;
+
+        SetCell(0, mouse_pos_2i, 0, new Vector2I(0, 0));
+        field[mouse_pos_2i.X][mouse_pos_2i.Y] = false;
+    }
 }

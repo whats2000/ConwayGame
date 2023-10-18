@@ -61,5 +61,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Exit"
 
+[node name="HiddenText" type="Label" parent="CenterContainer2/VBoxContainer"]
+modulate = Color(1, 1, 1, 0.337255)
+layout_mode = 2
+text = "Not Made By Unity"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="CenterContainer2/VBoxContainer/StartButton" to="." method="OnStartButtonPressed"]
 [connection signal="pressed" from="CenterContainer2/VBoxContainer/ExitButton" to="." method="OnQuitButtonPressed"]
