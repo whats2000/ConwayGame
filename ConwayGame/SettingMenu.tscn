@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnaeytwsoadee"]
+[gd_scene load_steps=3 format=3 uid="uid://bnaeytwsoadee"]
 
 [ext_resource type="Script" path="res://UI/SettingMenu.cs" id="1_xc6mu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2do7"]
+bg_color = Color(0.45098, 0.572549, 0.964706, 0.709804)
+expand_margin_left = 30.0
+expand_margin_top = 30.0
+expand_margin_right = 30.0
+expand_margin_bottom = 30.0
 
 [node name="SettingMenu" type="Control"]
 layout_mode = 3
@@ -13,122 +20,132 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_xc6mu")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.5
+offset_top = -225.0
+offset_right = 162.5
+offset_bottom = 225.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_y2do7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="BoxTitle" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="BoxTitle" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Game Setting"
 horizontal_alignment = 1
 
-[node name="MinDeadRequiredSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+[node name="MinDeadRequiredSlider" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MinDeadRequiredSlider"]
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/MinDeadRequiredSlider"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Min Dead Required:   "
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MinDeadRequiredSlider"]
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/MinDeadRequiredSlider"]
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 8.0
 value = 1.0
 
-[node name="MaxDeadRequiredSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+[node name="MaxDeadRequiredSlider" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MaxDeadRequiredSlider"]
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/MaxDeadRequiredSlider"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Max Dead Required:  "
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MaxDeadRequiredSlider"]
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/MaxDeadRequiredSlider"]
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 8.0
 value = 4.0
 
-[node name="MinBreedRequiredSlider2" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+[node name="MinBreedRequiredSlider2" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MinBreedRequiredSlider2"]
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/MinBreedRequiredSlider2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Min Breed Required:  "
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MinBreedRequiredSlider2"]
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/MinBreedRequiredSlider2"]
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 8.0
 value = 3.0
 
-[node name="MaxBreedRequiredSlider2" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+[node name="MaxBreedRequiredSlider2" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MaxBreedRequiredSlider2"]
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/MaxBreedRequiredSlider2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Max Breed Required: "
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MaxBreedRequiredSlider2"]
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/MaxBreedRequiredSlider2"]
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 8.0
 value = 3.0
 
-[node name="DeadChanceSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+[node name="DeadChanceSlider" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/DeadChanceSlider"]
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/DeadChanceSlider"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Dead Chance:               "
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/DeadChanceSlider"]
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/DeadChanceSlider"]
 layout_mode = 2
 size_flags_vertical = 4
 min_value = 1.0
 value = 100.0
 
-[node name="BreedChanceSlider" type="HSplitContainer" parent="CenterContainer/VBoxContainer"]
+[node name="BreedChanceSlider" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/BreedChanceSlider"]
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/BreedChanceSlider"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Breed Chance:              "
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/VBoxContainer/BreedChanceSlider"]
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/BreedChanceSlider"]
 layout_mode = 2
 size_flags_vertical = 4
 value = 100.0
 
-[node name="ContinueButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="ContinueButton" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Continue"
 
-[node name="ExitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="ExitButton" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Exit"
 
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/MinDeadRequiredSlider/HSlider" to="." method="MinDeadSliderChange"]
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/MaxDeadRequiredSlider/HSlider" to="." method="MaxDeadSliderChange"]
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/MinBreedRequiredSlider2/HSlider" to="." method="MinBreedSliderChange"]
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/MaxBreedRequiredSlider2/HSlider" to="." method="MaxBreedSliderChange"]
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/DeadChanceSlider/HSlider" to="." method="DeadChanceSliderChange"]
-[connection signal="value_changed" from="CenterContainer/VBoxContainer/BreedChanceSlider/HSlider" to="." method="BreedChanceSliderChange"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/ContinueButton" to="." method="OnContinueButtonPressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/ExitButton" to="." method="OnQuitButtonPressed"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/MinDeadRequiredSlider/HSlider" to="." method="MinDeadSliderChange"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/MaxDeadRequiredSlider/HSlider" to="." method="MaxDeadSliderChange"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/MinBreedRequiredSlider2/HSlider" to="." method="MinBreedSliderChange"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/MaxBreedRequiredSlider2/HSlider" to="." method="MaxBreedSliderChange"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/DeadChanceSlider/HSlider" to="." method="DeadChanceSliderChange"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/BreedChanceSlider/HSlider" to="." method="BreedChanceSliderChange"]
+[connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/ContinueButton" to="." method="OnContinueButtonPressed"]
+[connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/ExitButton" to="." method="OnQuitButtonPressed"]
