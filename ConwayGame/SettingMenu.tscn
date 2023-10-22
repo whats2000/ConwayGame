@@ -4,6 +4,10 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rleo7"]
 bg_color = Color(0.439216, 0.615686, 0.811765, 0.392157)
+expand_margin_left = 30.0
+expand_margin_top = 30.0
+expand_margin_right = 30.0
+expand_margin_bottom = 30.0
 
 [node name="SettingMenu" type="Control"]
 layout_mode = 3
@@ -12,8 +16,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 script = ExtResource("1_xc6mu")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
@@ -27,7 +29,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_rleo7")
 
 [node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer"]
 layout_mode = 2
