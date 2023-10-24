@@ -25,6 +25,10 @@ window/size/viewport_height=1080
 
 project/assembly_name="Conway Game"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/SliderLabel/plugin.cfg")
+
 [input]
 
 toggle_play={

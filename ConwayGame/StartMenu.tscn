@@ -69,7 +69,7 @@ theme_override_font_sizes/font_size = 20
 text = "Exit"
 
 [node name="HiddenText" type="Label" parent="PanelContainer/CenterContainer2/VBoxContainer"]
-modulate = Color(1, 1, 1, 0.337255)
+modulate = Color(1, 1, 1, 0.466667)
 layout_mode = 2
 text = "Not Made By Unity"
 horizontal_alignment = 1
