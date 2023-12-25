@@ -1,7 +1,10 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://dbxu1n6rtbvmg"]
+[gd_resource type="TileSet" load_steps=11 format=3 uid="uid://dbxu1n6rtbvmg"]
 
 [ext_resource type="Texture2D" uid="uid://bxi22jwavkkyb" path="res://Resource/Map/DeadCell.png" id="1_f24rv"]
 [ext_resource type="Texture2D" uid="uid://bls4jf23l802m" path="res://Resource/Map/Cell.png" id="2_cl66v"]
+[ext_resource type="Texture2D" uid="uid://cps82elhhbngq" path="res://Resource/Map/Cell1.jpg" id="3_kxgoi"]
+[ext_resource type="Texture2D" uid="uid://dipmncgsu7ath" path="res://Resource/Map/Cell2.jpg" id="4_klki8"]
+[ext_resource type="Texture2D" uid="uid://drfpsbh00yavr" path="res://Resource/Map/Cell3.jpg" id="5_w3h1b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_urife"]
 texture = ExtResource("1_f24rv")
@@ -13,7 +16,25 @@ texture = ExtResource("2_cl66v")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_07mer"]
+texture = ExtResource("3_kxgoi")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hsodi"]
+texture = ExtResource("4_klki8")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_adnlj"]
+texture = ExtResource("5_w3h1b")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
 [resource]
 tile_size = Vector2i(32, 32)
 sources/1 = SubResource("TileSetAtlasSource_4bj6r")
 sources/0 = SubResource("TileSetAtlasSource_urife")
+sources/2 = SubResource("TileSetAtlasSource_07mer")
+sources/3 = SubResource("TileSetAtlasSource_hsodi")
+sources/4 = SubResource("TileSetAtlasSource_adnlj")

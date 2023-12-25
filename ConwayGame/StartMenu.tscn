@@ -54,8 +54,9 @@ text = "Welcome to play Conway Game
 3. Press \"Alt\" to random place cell
 4. Press \"c\" to clear up the map
 5. Left/Right Clcik to Place/Remove cell
-6. Use \"Ctrl\" with Left Clcik to drag map
-7. Scroll to scale the map"
+6. \"<-\" or \"->\" to change cell type
+7. Use \"Ctrl\" with Left Clcik to drag map
+8. Scroll to scale the map"
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="PanelContainer/CenterContainer2/VBoxContainer"]

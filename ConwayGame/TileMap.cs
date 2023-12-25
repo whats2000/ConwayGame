@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class TileMap : Godot.TileMap
 {
@@ -8,8 +9,9 @@ public partial class TileMap : Godot.TileMap
     public bool pause = true;
     private bool isLeftClick = false;
     private bool isRightClick = false;
+    private int currentCellType = 1;
 
-    List<List<bool>> field = new();
+    List<List<int>> field = new();
 
     [Export] public int Width;
     [Export] public int Height;
@@ -27,11 +29,11 @@ public partial class TileMap : Godot.TileMap
 
         for (int x = 0; x < Width; x++)
         {
-            field.Add(new List<bool>());
+            field.Add(new List<int>());
             for (int y = 0; y < Height; y++)
             {
                 SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-                field[x].Add(false);
+                field[x].Add(0);
             }
         }
     }
@@ -50,19 +52,21 @@ public partial class TileMap : Godot.TileMap
         Process_cell();
     }
 
+    // This function is modify by GPT-4
+    // Link for prompt https://chat.openai.com/share/836d6086-fb5c-402e-93fc-c1ca21c2aa22
     private void Process_cell()
     {
         if (pause) return;
 
-        List<List<bool>> temp_field = new();
+        List<List<int>> tempField = new();
 
         for (int x = 0; x < Width; x++)
         {
-            List<bool> temp_row = new();
+            List<int> tempRow = new();
 
             for (int y = 0; y < Height; y++)
             {
-                int count = 0;
+                Dictionary<int, int> neighborCount = new Dictionary<int, int>();
 
                 for (int dx = -1; dx <= 1; dx++)
                 {
@@ -72,42 +76,56 @@ public partial class TileMap : Godot.TileMap
                             x + dx < 0 || x + dx >= Width ||
                             y + dy < 0 || y + dy >= Height) continue;
 
-                        if (!field[x + dx][y + dy]) continue;
-                        count++;
+                        int neighborType = field[x + dx][y + dy];
+                        if (!neighborCount.ContainsKey(neighborType))
+                        {
+                            neighborCount[neighborType] = 1;
+                        }
+                        else
+                        {
+                            neighborCount[neighborType]++;
+                        }
                     }
                 }
 
-                if (!field[x][y])
+                int cellType = field[x][y];
+                int newCellType = cellType;
+
+                int sameTypeCount = neighborCount.ContainsKey(cellType) ? neighborCount[cellType] : 0;
+                int totalNeighbors = neighborCount.Values.Sum();
+                int enemyCount = totalNeighbors - sameTypeCount;
+
+                if (cellType == 0)
                 {
-                    if (count >= SettingMenu.minBreedRequired && count <= SettingMenu.maxBreedRequired && new Random().Next(1, 101) <= SettingMenu.breedChance)
+                    int maxNeighborType = neighborCount.OrderByDescending(kv => kv.Key != 0 ? kv.Value : 0).FirstOrDefault().Key;
+                    if (maxNeighborType != 0 && neighborCount[maxNeighborType] >= SettingMenu.minBreedRequired && neighborCount[maxNeighborType] <= SettingMenu.maxBreedRequired && new Random().Next(1, 101) <= SettingMenu.breedChance)
                     {
-                        SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
-                        temp_row.Add(true);
-                    }
-                    else
-                    {
-                        temp_row.Add(false);
+                        newCellType = maxNeighborType;
                     }
                 }
                 else
                 {
-                    if ((count <= SettingMenu.minDeadRequired || count >= SettingMenu.maxDeadRequired) && new Random().Next(1, 101) <= SettingMenu.deadChance)
+                    if (enemyCount - sameTypeCount >= 3 && new Random().Next(1, 101) <= SettingMenu.attackDead)
                     {
-                        SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-                        temp_row.Add(false);
+                        newCellType = 0;
                     }
-                    else
+                    else if (sameTypeCount <= SettingMenu.minDeadRequired || sameTypeCount >= SettingMenu.maxDeadRequired && new Random().Next(1, 101) <= SettingMenu.deadChance)
                     {
-                        temp_row.Add(true);
+                        newCellType = 0;
                     }
                 }
+
+                SetCell(0, new Vector2I(x, y), newCellType, new Vector2I(0, 0));
+                tempRow.Add(newCellType);
             }
 
-            temp_field.Add(temp_row);
+            tempField.Add(tempRow);
         }
 
-        field = temp_field;
+        field = tempField;
     }
+    // End of GPT-4 modify
+
 
     public override void _Input(InputEvent @event)
     {
@@ -135,6 +153,16 @@ public partial class TileMap : Godot.TileMap
             isRightClick = false;
         }
 
+        if (@event.IsActionPressed("previous_cell_type"))
+        {
+            currentCellType = Math.Max(currentCellType - 1, 1);
+        }
+
+        if (@event.IsActionPressed("next_cell_type"))
+        {
+            currentCellType = Math.Min(currentCellType + 1, SettingMenu.numberOfGroup);
+        }
+
         if (@event.IsActionPressed("random_place_cell"))
         {
             RandomPlaceCell();
@@ -150,13 +178,13 @@ public partial class TileMap : Godot.TileMap
     {
         for (int x = 0; x < Width; x++)
         {
-            field.Add(new List<bool>());
+            field.Add(new List<int>());
             for (int y = 0; y < Height; y++)
             {
-                if (!field[x][y]) continue;
+                if (field[x][y] == 0) continue;
 
                 SetCell(0, new Vector2I(x, y), 0, new Vector2I(0, 0));
-                field[x][y] = false;
+                field[x][y] = 0;
             }
         }
     }
@@ -169,10 +197,12 @@ public partial class TileMap : Godot.TileMap
             {
                 if (new Random().Next(0, 9) == 1)
                 {
-                    if (field[x][y]) continue;
+                    if (field[x][y] > 0) continue;
 
-                    SetCell(0, new Vector2I(x, y), 1, new Vector2I(0, 0));
-                    field[x][y] = true;
+                    int cell_type = new Random().Next(1, SettingMenu.numberOfGroup + 1);
+
+                    SetCell(0, new Vector2I(x, y), cell_type, new Vector2I(0, 0));
+                    field[x][y] = cell_type;
                 }
             }
         }
@@ -184,11 +214,11 @@ public partial class TileMap : Godot.TileMap
             mouse_pos_2i.X >= Width ||
             mouse_pos_2i.Y < 0 ||
             mouse_pos_2i.Y >= Height ||
-            field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
+            field[mouse_pos_2i.X][mouse_pos_2i.Y] > 0 ||
             !isLeftClick) return;
 
-        SetCell(0, mouse_pos_2i, 1, new Vector2I(0, 0));
-        field[mouse_pos_2i.X][mouse_pos_2i.Y] = true;
+        SetCell(0, mouse_pos_2i, currentCellType, new Vector2I(0, 0));
+        field[mouse_pos_2i.X][mouse_pos_2i.Y] = currentCellType;
     }
 
     private void RemoveCell(Vector2I mouse_pos_2i)
@@ -197,10 +227,10 @@ public partial class TileMap : Godot.TileMap
             mouse_pos_2i.X >= Width ||
             mouse_pos_2i.Y < 0 ||
             mouse_pos_2i.Y >= Height ||
-            !field[mouse_pos_2i.X][mouse_pos_2i.Y] ||
+            field[mouse_pos_2i.X][mouse_pos_2i.Y] == 0 ||
             !isRightClick) return;
 
         SetCell(0, mouse_pos_2i, 0, new Vector2I(0, 0));
-        field[mouse_pos_2i.X][mouse_pos_2i.Y] = false;
+        field[mouse_pos_2i.X][mouse_pos_2i.Y] = 0;
     }
 }

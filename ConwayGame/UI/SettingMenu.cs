@@ -10,6 +10,9 @@ public partial class SettingMenu : Control
     public static int maxBreedRequired = 3;
     public static int deadChance = 100;
     public static int breedChance = 100;
+    public static int attackDead = 100;
+
+    public static int numberOfGroup = 4;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -75,5 +78,15 @@ public partial class SettingMenu : Control
     private void BreedChanceSliderChange(double value)
     {
         breedChance = (int)value;
+    }
+
+    private void AttackDeadSliderChange(double value)
+    {
+        attackDead = (int)value;
+    }
+
+    private void NumberOfGroupSliderChange(double value)
+    {
+        numberOfGroup = (int)value;
     }
 }

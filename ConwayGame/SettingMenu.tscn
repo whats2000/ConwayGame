@@ -191,6 +191,56 @@ vertical_alignment = 1
 script = ExtResource("2_m7pee")
 metadata/_edit_initialized_ = true
 
+[node name="AttackDeathChance" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/AttackDeathChance"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Attack Dead Cahnce:  "
+
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/AttackDeathChance"]
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+
+[node name="SliderLabel" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/AttackDeathChance/HSlider"]
+layout_mode = 0
+offset_right = 28.0
+offset_bottom = 26.0
+size_flags_horizontal = 4
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_m7pee")
+metadata/_edit_initialized_ = true
+
+[node name="NumberOfGroups" type="HSplitContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/NumberOfGroups"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Number Of Groups:    "
+
+[node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/NumberOfGroups"]
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 1.0
+max_value = 4.0
+value = 4.0
+
+[node name="SliderLabel" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/NumberOfGroups/HSlider"]
+layout_mode = 0
+offset_right = 28.0
+offset_bottom = 26.0
+size_flags_horizontal = 4
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_m7pee")
+metadata/_edit_initialized_ = true
+
 [node name="ContinueButton" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
@@ -207,5 +257,7 @@ text = "Exit"
 [connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/MaxBreedRequiredSlider2/HSlider" to="." method="MaxBreedSliderChange"]
 [connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/DeadChanceSlider/HSlider" to="." method="DeadChanceSliderChange"]
 [connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/BreedChanceSlider/HSlider" to="." method="BreedChanceSliderChange"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/AttackDeathChance/HSlider" to="." method="AttackDeadSliderChange"]
+[connection signal="value_changed" from="PanelContainer/CenterContainer/VBoxContainer/NumberOfGroups/HSlider" to="." method="NumberOfGroupSliderChange"]
 [connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/ContinueButton" to="." method="OnContinueButtonPressed"]
 [connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/ExitButton" to="." method="OnQuitButtonPressed"]
