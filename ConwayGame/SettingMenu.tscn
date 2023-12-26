@@ -197,7 +197,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/AttackDeathChance"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Attack Dead Cahnce:  "
+text = "Attack Dead Chance:  "
 
 [node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/AttackDeathChance"]
 layout_mode = 2

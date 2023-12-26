@@ -90,10 +90,17 @@ public partial class TileMap : Godot.TileMap
 
                 int cellType = field[x][y];
                 int newCellType = cellType;
-
                 int sameTypeCount = neighborCount.ContainsKey(cellType) ? neighborCount[cellType] : 0;
-                int totalNeighbors = neighborCount.Values.Sum();
-                int enemyCount = totalNeighbors - sameTypeCount;
+                int totalLivingNeighbors = 0;
+                foreach (var pair in neighborCount)
+                {
+                    if (pair.Key != 0)
+                    {
+                        totalLivingNeighbors += pair.Value;
+                    }
+                }
+                int enemyCount = totalLivingNeighbors - sameTypeCount;
+
 
                 if (cellType == 0)
                 {
@@ -105,7 +112,7 @@ public partial class TileMap : Godot.TileMap
                 }
                 else
                 {
-                    if (enemyCount - sameTypeCount >= 3 && new Random().Next(1, 101) <= SettingMenu.attackDead)
+                    if (enemyCount - sameTypeCount >= 2 && new Random().Next(1, 101) <= SettingMenu.attackDead)
                     {
                         newCellType = 0;
                     }
